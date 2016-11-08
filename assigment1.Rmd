@@ -12,18 +12,46 @@ When you click the **Knit** button a document will be generated that includes bo
 # read data
 
 ```{r}
-dat = read.table("durationDepth.txt", sep="")
-head(dat)
+dataDepthDuration = read.table("durationDepth.txt", sep="")
+head(dataDepthDuration)
 
-# made some changes
-# made some more changes
-# gdfklgsdl;k
+dat <- data.frame(X =dataDepthDuration[,'V1'],
+                  Y =dataDepthDuration[,'V2'],
+                  att1 = as.factor(dataDepthDuration[,'V3']),
+                  att2 =as.factor(dataDepthDuration[,'V4']))
+
+ticks <- c(0.1,0.5,1:10)
+ooms <- 10^(0:3)
+breaks <- as.vector(ticks %o% ooms)
+
+set.seed(5)
+
+# select the labels to show
+show.labels <- c(T,T,T,T, F, F, T, F, F, F, F, T)
+labels <- as.character(breaks * show.labels)
+labels <- gsub("^0$", "", labels)
+
+
+
+
 ```
 
 You can also embed plots, for example:
 
 ```{r, echo=FALSE}
-plot(cars)
+ggplot(dat,aes(x=X,y=Y,color=att2,shape=att2)) +geom_point(size=5, aes(fill=att2, alpha=as.character(att1))) +
+  geom_point(size=5) +  
+  scale_shape_manual(values=c(21,21,21),labels = c("Cyprus Low", "Low to the East","ARST"),guide = 'none') +
+  scale_alpha_manual(values=c("0"=0, "1"=1),guide = 'none') +
+  scale_x_log10(limits = c(0.05, NA), labels = labels, breaks = breaks) +
+  scale_y_log10(limits = c(0.1, NA), labels = labels, breaks = breaks) +
+  theme_bw() + theme(panel.grid.minor = element_line(color="black", linetype="dotted"), panel.grid.major = element_line(color="black", linetype="dotted")) +
+  annotation_logticks(base = 10) +
+  theme(legend.position="none") +
+  guides(fill=FALSE)  +  scale_colour_manual('', labels = c("Cyprus Low", "Low to the East","ARST"), values = c(rgb(34, 94, 168, 150, maxColorValue=255),rgb(65,182,196, 150, maxColorValue=255),rgb(245, 177, 139, 150, maxColorValue=255))) + scale_fill_manual('', values = c(rgb(34, 94, 168, 150, maxColorValue=255),rgb(65,182,196, 150, maxColorValue=255),rgb(245, 177, 139, 150, maxColorValue=255)))+ theme(legend.text = element_text(colour="black", size = 16))+theme(legend.justification=c(0,1), legend.position=c(0,1))+theme(legend.background = element_rect(fill="white"))+
+  labs(x="Event Duration [h]\n", y="Average Rain Depth [mm]") +
+  theme(axis.text.x=element_text(size=20), axis.title.x=element_text(size=20),axis.text.y=element_text(size=20), axis.title.y=element_text(size=20))+
+  labs(title = "Average Events Rain Amounts And Durations (Log-Scale)\n (events associated with a flood are marked as filled dots)")
 ```
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
