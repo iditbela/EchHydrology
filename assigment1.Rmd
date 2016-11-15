@@ -5,9 +5,12 @@ date: "Tuesday, November 08, 2016"
 output: html_document
 ---
 
+
 This simple code is reading some txt data of rain events in the dead sea - their duration and their average rain depth over two near by catchments - Darga and Teqoa. Each event is classified as wither a "Cyprus Low"", a "Low to the East"" or an "Active Red Sea Trough (ARST)". In addition, each event is either associated with a flash flood in one of the catchments (marked as "1"") or not. In total, 32 rain events are associated with a flood, while 196 rain events are not. 
 
 ```{r}
+library("ggplot2", lib.loc="~/R/win-library/3.1")
+
 # reading data
 dataDepthDuration = read.table("durationDepth.txt", sep="")
 head(dataDepthDuration)
