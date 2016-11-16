@@ -20,6 +20,7 @@ dat <- data.frame(X =dataDepthDuration[,'V1'],
                   att1 = as.factor(dataDepthDuration[,'V3']),
                   att2 =as.factor(dataDepthDuration[,'V4']))
 
+head(dat)
 # ticks for log-scale
 ticks <- c(0.1,0.5,1:10)
 ooms <- 10^(0:3)
