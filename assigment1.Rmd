@@ -35,7 +35,7 @@ labels <- gsub("^0$", "", labels)
 
 ```
 
-The Plot shows all events, devided to sifferent synoptic types (different colors) and flood (filled dot) Vs. non-flood (empty dot) association 
+The Plot shows all events, divided to different synoptic types (different colors) and flood (filled dot) Vs. non-flood (empty dot) association 
 
 ```{r, echo=FALSE}
 ggplot(dat,aes(x=X,y=Y,color=att2,shape=att2)) +geom_point(size=5, aes(fill=att2, alpha=as.character(att1))) +
